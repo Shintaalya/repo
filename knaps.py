@@ -87,7 +87,12 @@ elif choose=='Predict':
         best_X_train = model_data['best_X_train']
         best_y_train = model_data['best_y_train']
 
-    # Function to normalize input data
+
+    
+    # Streamlit app code
+     def main():
+        st.title('Prediksi Harga Rumah')
+        # Function to normalize input data
     def normalize_input_data(data):
         normalized_data = (data - np.mean(best_X_train, axis=0)) / np.std(best_X_train, axis=0)
         return normalized_data
@@ -102,11 +107,6 @@ elif choose=='Predict':
     def denormalize_data(data):
         denormalized_data = (data * y_train_std) + y_train_mean
         return denormalized_data
-    
-    # Streamlit app code
-     def main():
-        st.title('Prediksi Harga Rumah')
-    
         # Input form
         input_data_1 = st.text_input('Luas Tanah', '100')
         input_data_2 = st.text_input('Luas Bangunan', '200')
