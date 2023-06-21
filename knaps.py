@@ -11,12 +11,12 @@ from sklearn.preprocessing import PolynomialFeatures
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_absolute_percentage_error #untuk menghitung dan mengukur tingkat kesalahan (eror) prediksi Anda.
 
-with st.sidebar:
+with st.sidebar: #Fungsi tersebut menghasilkan objek pilihan menu
     choose = option_menu("Linear Regression (Polynomial)", ["Home", "Dataset", "Prepocessing", "Predict", "Help"],
-                             icons=['house', 'table', 'boxes', 'boxes','check2-circle'],
+                             icons=['house', 'table', 'cloud-upload', 'boxes','check2-circle'],
                              menu_icon="app-indicator", default_index=0,
                              styles={
-            "container": {"padding": "5!important", "background-color": "10A19D"},
+            "container": {"padding": "background-color": "10A19D"},
             "icon": {"color": "blue", "font-size": "25px"}, 
             "nav-link": {"font-size": "16px", "text-align": "left", "margin":"0px", "--hover-color": "#eee"},
             "nav-link-selected": {"background-color": "#00FFFF"},
