@@ -99,6 +99,11 @@ def expand_input_features(data, X_train_expanded):
     expanded_data = model.expand_features(normalized_data, degree=2)
     return expanded_data
 
+# Function to denormalize predicted data
+def denormalize_data(data):
+    denormalized_data = (data * y_train_std) + y_train_mean
+    return denormalized_data
+
 # Main function to run the Streamlit app
 def main():
     model, X_train_expanded, y_train_mean, y_train_std, best_X_train, best_y_train = load_model()
