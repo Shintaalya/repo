@@ -91,9 +91,8 @@ def load_model():
 
 # Function to normalize input data
 def normalize_input_data(data):
-    normalized_data = (data - np.mean(best_X_train, axis=0)) / np.std(best_X_train, axis=0)
+    normalized_data = (data - np.mean(X_train_expanded, axis=0)) / np.std(X_train_expanded, axis=0)
     return normalized_data
-
 # Function to expand input features
 def expand_input_features(data):
     normalized_data = normalize_input_data(data)
