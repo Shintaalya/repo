@@ -90,7 +90,7 @@ elif choose=='Predict':
 
     
     # Streamlit app code
-    def main():
+def main():
         st.title('Prediksi Harga Rumah')
         # Function to normalize input data
     def normalize_input_data(data):
