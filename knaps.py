@@ -101,23 +101,22 @@ elif choose=='Predict':
         # Periksa apakah nilai input adalah numerik
         if not input_data_1.isnumeric() or not input_data_2.isnumeric():
             st.error('Masukkan nilai numerik untuk fitur input.')
-            return
+        else:
+            # Konversi nilai input ke float
+            input_feature_1 = float(input_data_1)
+            input_feature_2 = float(input_data_2)
 
-        # Konversi nilai input ke float
-        input_feature_1 = float(input_data_1)
-        input_feature_2 = float(input_data_2)
+            # Expand fitur input
+            input_features = np.array([[input_feature_1, input_feature_2]])
+            expanded_input = expand_input_features(input_features)
 
-        # Expand fitur input
-        input_features = np.array([[input_feature_1, input_feature_2]])
-        expanded_input = expand_input_features(input_features)
+            # Lakukan prediksi
+            normalized_prediction = model.predict(expanded_input)
+            prediction = denormalize_data(normalized_prediction)
 
-        # Lakukan prediksi
-        normalized_prediction = model.predict(expanded_input)
-        prediction = denormalize_data(normalized_prediction)
-
-        # Tampilkan prediksi
-        st.subheader('Hasil Prediksi')
-        st.write(prediction[0])
+            # Tampilkan hasil prediksi
+            st.subheader('Hasil Prediksi')
+            st.write(prediction[0])
 if choose == 'Help':
     st.markdown('<h1 style="text-align: center;"> Panduan : </h1><ol type="1" style="text-align: justify; background-color: #00FFFF; padding: 30px; border-radius: 20px;"><li><i><b>Cara View Dataset</b></i> <ol type="a"><li>Masuk ke sistem</li><li>Pilih menu dataset</li></ol></li><li><i><b>Cara Prediksi Harga</b></i> <ol type="a"><li>Pilih menu predict</li><li>Pilih LT dan LB</li><li>Klik tombol prediksi</li></ol></li></ol>', unsafe_allow_html=True)
 
