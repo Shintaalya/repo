@@ -4,6 +4,8 @@ import numpy as np #import modul numpy
 import pickle #import modul pickle yang digunakan untuk serialisasi dan deserialisasi objek Python
 from PIL import Image  #import kelas Image dari modul PIL (Python Imaging Library) yang digunakan untuk memanipulasi gambar
 from streamlit_option_menu import option_menu  #pustaka yang memberikan fungsi tambahan untuk membuat menu pilihan dengan Streamlit
+from sklearn.linear_model import LinearRegression
+from sklearn.linear_model import LinearRegression
 from linear_regression_model import LinearRegression
 from sklearn.preprocessing import PolynomialFeatures
 from sklearn.model_selection import train_test_split
@@ -75,10 +77,8 @@ elif choose=='Predict':
     filename = 'model.pkl'  # Nama file yang akan disimpan secara sementara
     urllib.request.urlretrieve(url, filename)
     
-# Load the model
-@st.cache
-def load_model():
-    with open('model.pkl', 'rb') as file:
+    # Load the model
+    with open('model.pkl','rb') as file:
         model_data = pickle.load(file)
         model = model_data['model']
         X_train_expanded = model_data['X_train_expanded']
@@ -86,55 +86,55 @@ def load_model():
         y_train_std = model_data['y_train_std']
         best_X_train = model_data['best_X_train']
         best_y_train = model_data['best_y_train']
-    return model, X_train_expanded, y_train_mean, y_train_std, best_X_train, best_y_train
 
-# Function to normalize input data
-def normalize_input_data(data, X_train_expanded):
-    normalized_data = (data - np.mean(X_train_expanded, axis=0)) / np.std(X_train_expanded, axis=0)
-    return normalized_data
-
-# Function to expand input features
-def expand_input_features(data, X_train_expanded):
-    normalized_data = normalize_input_data(data, X_train_expanded)
-    expanded_data = model.expand_features(normalized_data, degree=2)
-    return expanded_data
-
-# Function to denormalize predicted data
-def denormalize_data(data):
-    denormalized_data = (data * y_train_std) + y_train_mean
-    return denormalized_data
-
-# Main function to run the Streamlit app
-def main():
-    model, X_train_expanded, y_train_mean, y_train_std, best_X_train, best_y_train = load_model()
-
-    if choose == 'Predict':
+    # Function to normalize input data
+    def normalize_input_data(data):
+        normalized_data = (data - np.mean(best_X_train, axis=0)) / np.std(best_X_train, axis=0)
+        return normalized_data
+    
+    # Function to expand input features
+    def expand_input_features(data):
+        normalized_data = normalize_input_data(data)
+        expanded_data = model.expand_features(normalized_data, degree=2)
+        return expanded_data
+    
+    # Function to denormalize predicted data
+    def denormalize_data(data):
+        denormalized_data = (data * y_train_std) + y_train_mean
+        return denormalized_data
+    
+    # Streamlit app code
+    def main():
         st.title('Prediksi Harga Rumah')
-
+    
+        # Input form
         input_data_1 = st.text_input('Luas Tanah', '100')
         input_data_2 = st.text_input('Luas Bangunan', '200')
+    
+        # Check if input values are numeric
+        if not input_data_1.isnumeric() or not input_data_2.isnumeric():
+            st.error('Please enter numeric values for the input features.')
+            return
+        
+        # Convert input values to float
+        input_feature_1 = float(input_data_1)
+        input_feature_2 = float(input_data_2)
+    
+        # Normalize and expand input features
+        input_features = np.array([[input_feature_1, input_feature_2]])
+        expanded_input = expand_input_features(input_features)
+    
+        # Perform prediction
+        normalized_prediction = model.predict(expanded_input)
+        prediction = denormalize_data(normalized_prediction)
+    
+        # Display the prediction
+        st.subheader('Hasil Prediksi')
+        st.write(prediction[0])
+    
+if choose == 'Help':
+    st.markdown('<h1 style="text-align: center;"> Panduan : </h1><ol type="1" style="text-align: justify; background-color: #00FFFF; padding: 30px; border-radius: 20px;"><li><i><b>Cara View Dataset</b></i> <ol type="a"><li>Masuk ke sistem</li><li>Pilih menu dataset</li></ol></li><li><i><b>Cara Prediksi Harga</b></i> <ol type="a"><li>Pilih menu predict</li><li>Pilih LT dan LB</li><li>Klik tombol prediksi</li></ol></li></ol>', unsafe_allow_html=True)
 
-        if st.button('Prediksi'):
-            # Check if input values are numeric
-            if not input_data_1.isnumeric() or not input_data_2.isnumeric():
-                st.error('Please enter numeric values for the input features.')
-                return
-
-            # Convert input values to float
-            input_feature_1 = float(input_data_1)
-            input_feature_2 = float(input_data_2)
-
-            # Normalize and expand input features
-            input_features = np.array([[input_feature_1, input_feature_2]])
-            expanded_input = expand_input_features(input_features, X_train_expanded)
-
-            # Perform prediction
-            normalized_prediction = model.predict(expanded_input)
-            prediction = denormalize_data(normalized_prediction)
-
-            # Display the prediction
-            st.subheader('Hasil Prediksi')
-            st.write(prediction[0])
-
+# Menjalankan aplikasi Streamlit
 if __name__ == "__main__":
     main()
