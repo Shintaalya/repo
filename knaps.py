@@ -10,11 +10,8 @@ from linear_regression_model import LinearRegression
 from sklearn.preprocessing import PolynomialFeatures
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_absolute_percentage_error #untuk menghitung dan mengukur tingkat kesalahan (eror) prediksi Anda.
-# def main():
-#     st.sidebar.header("Menu")
-#     choose = st.sidebar.radio("Navigation", ["Home", "Dataset", "Preprocessing", "Predict", "Help"])
 
-def main():
+with st.sidebar:
     choose = option_menu("Linear Regression (Polynomial)", ["Home", "Dataset", "Prepocessing", "Predict", "Help"],
                              icons=['house', 'table', 'boxes', 'boxes','check2-circle'],
                              menu_icon="app-indicator", default_index=0,
@@ -71,11 +68,16 @@ elif choose=='Prepocessing':
       
 elif choose=='Predict':
     st.markdown('<h1 style = "text-align: center;"> Prediksi Harga Rumah</h1>', unsafe_allow_html = True)
-    # Tambahkan kode untuk halaman Predict di sini
     logo = Image.open('eror.png')
     st.image(logo, caption='')
+    import urllib.request
 
-    # Memuat model
+    # Mendownload file model.pkl
+    url = 'https://raw.githubusercontent.com/Shintaalya/repo/main/model.pkl'
+    filename = 'model.pkl'  # Nama file yang akan disimpan secara sementara
+    urllib.request.urlretrieve(url, filename)
+    
+    # Load the model
     with open('model.pkl','rb') as file:
         model_data = pickle.load(file)
         model = model_data['model']
@@ -84,42 +86,52 @@ elif choose=='Predict':
         y_train_std = model_data['y_train_std']
         best_X_train = model_data['best_X_train']
         best_y_train = model_data['best_y_train']
-        # Fungsi untuk mengubah fitur input
-    def expand_input_features(data):
-        normalized_data = (data - np.mean(best_X_train, axis=0)) / np.std(best_X_train, axis=0)
-        expanded_data = X_train_expanded.transform(normalized_data)
-        return expanded_data
 
-    # Fungsi untuk mengembalikan prediksi menjadi nilai semula
+    # Function to normalize input data
+    def normalize_input_data(data):
+        normalized_data = (data - np.mean(best_X_train, axis=0)) / np.std(best_X_train, axis=0)
+        return normalized_data
+    
+    # Function to expand input features
+    def expand_input_features(data):
+        normalized_data = normalize_input_data(data)
+        expanded_data = model.expand_features(normalized_data, degree=2)
+        return expanded_data
+    
+    # Function to denormalize predicted data
     def denormalize_data(data):
         denormalized_data = (data * y_train_std) + y_train_mean
         return denormalized_data
-
-    # Form input
-    input_data_1 = st.text_input('Luas Tanah', '100')
-    input_data_2 = st.text_input('Luas Bangunan', '200')
-
-    # Tombol prediksi
-    if st.button('Prediksi'):
-        # Periksa apakah nilai input adalah numerik
+    
+    # Streamlit app code
+    def main():
+        st.title('Prediksi Harga Rumah')
+    
+        # Input form
+        input_data_1 = st.text_input('Luas Tanah', '100')
+        input_data_2 = st.text_input('Luas Bangunan', '200')
+    
+        # Check if input values are numeric
         if not input_data_1.isnumeric() or not input_data_2.isnumeric():
-            st.error('Masukkan nilai numerik untuk fitur input.')
-        else:
-            # Konversi nilai input ke float
-            input_feature_1 = float(input_data_1)
-            input_feature_2 = float(input_data_2)
-
-            # Expand fitur input
-            input_features = np.array([[input_feature_1, input_feature_2]])
-            expanded_input = expand_input_features(input_features)
-
-            # Lakukan prediksi
-            normalized_prediction = model.predict(expanded_input)
-            prediction = denormalize_data(normalized_prediction)
-
-            # Tampilkan hasil prediksi
-            st.subheader('Hasil Prediksi')
-            st.write(prediction[0])
+            st.error('Please enter numeric values for the input features.')
+            return
+        
+        # Convert input values to float
+        input_feature_1 = float(input_data_1)
+        input_feature_2 = float(input_data_2)
+    
+        # Normalize and expand input features
+        input_features = np.array([[input_feature_1, input_feature_2]])
+        expanded_input = expand_input_features(input_features)
+    
+        # Perform prediction
+        normalized_prediction = model.predict(expanded_input)
+        prediction = denormalize_data(normalized_prediction)
+    
+        # Display the prediction
+        st.subheader('Hasil Prediksi')
+        st.write(prediction[0])
+    
 if choose == 'Help':
     st.markdown('<h1 style="text-align: center;"> Panduan : </h1><ol type="1" style="text-align: justify; background-color: #00FFFF; padding: 30px; border-radius: 20px;"><li><i><b>Cara View Dataset</b></i> <ol type="a"><li>Masuk ke sistem</li><li>Pilih menu dataset</li></ol></li><li><i><b>Cara Prediksi Harga</b></i> <ol type="a"><li>Pilih menu predict</li><li>Pilih LT dan LB</li><li>Klik tombol prediksi</li></ol></li></ol>', unsafe_allow_html=True)
 
