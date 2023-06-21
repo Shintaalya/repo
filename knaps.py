@@ -16,17 +16,17 @@ with st.sidebar: #Fungsi tersebut menghasilkan objek pilihan menu
                              icons=['house', 'table', 'cloud-upload', 'boxes','check2-circle'],
                              menu_icon="app-indicator", default_index=0,
                              styles={
-            "container": {"padding": "background-color": "10A19D"},
-            "icon": {"color": "blue", "font-size": "25px"}, 
-            "nav-link": {"font-size": "16px", "text-align": "left", "margin":"0px", "--hover-color": "#eee"},
-            "nav-link-selected": {"background-color": "#00FFFF"},
+            "container": {"padding":"5!important", "background-color": "10A19D"}, #Mengatur tampilan kontainer (wadah) dari menu pilihan
+            "icon": {"color": "blue", "font-size": "25px"},  #Mengatur tampilan ikon dalam menu pilihan. Properti "color" mengatur warna ikon. Properti "font-size" mengatur ukuran font ikon.
+            "nav-link": {"font-size": "16px", "text-align": "left", "margin":"0px", "--hover-color": "#eee"}, #Mengatur tampilan tautan dalam menu pilihan
+            "nav-link-selected": {"background-color": "#00FFFF"}, #Mengatur tampilan tautan yang dipilih dalam menu pilihan
         }
         )
 if choose=='Home':
     st.markdown('<h1 style = "text-align: center;"> Prediksi Harga Rumah</h1>', unsafe_allow_html = True)
     logo = Image.open('makam1.jpg')
 
-    st.image(logo, use_column_width=True, caption='Rumah di Jaksel')
+    st.image(logo, use_column_width=True, caption='Rumah di Jaksel') #mengatur lebar gambar agar sesuai dengan lebar kolom
     st.write('<p style = "text-align: justify;">Rumah merupakan salah satu kebutuhan pokok manusia, selain sandang dan pangan, rumah juga berfungsi sebagai tempat tinggal dan berfungsi untuk melindungi dari gangguan iklim dan makhluk hidup lainnya. Tak kalah buruknya dengan emas, rumah pun bisa dijadikan sebagai sarana investasi masa depan karena pergerakan harga yang berubah dari waktu ke waktu, dan semakin banyak orang yang membutuhkan hunian selain kedekatan dengan tempat kerja, pusat perkantoran dan pusat bisnis, transportasi. dll tentunya akan cepat mempengaruhi harga rumah tersebut.</p>', unsafe_allow_html = True)
     st.write('<p style = "text-align: justify;">Dalam proyek ini, kami mengembangkan sebuah sistem untuk memprediksi harga rumah berdasarkan parameter luas tanah dan luas bangunan, dan output yang dihasilkan adalah prediksi harga rumah. Kami menggunakan metode regresi linear dengan fitur ekspansi (expand feature) dan melatih model menggunakan metode Stochastic Gradient Descent. Untuk mengevaluasi model, kami menggunakan metrik MSE, RMSE, dan R (Square).Diharapkan dengan adanya sistem ini, dapat membantu dalam memprediksi harga rumah sesuai dengan luas tanah dan luas bangunan yang diinginkan.</p>', unsafe_allow_html = True)
     st.write(" ")
@@ -79,18 +79,19 @@ elif choose=='Predict':
     
     # Load the model
     with open('model.pkl','rb') as file:
-        model_data = pickle.load(file)
-        model = model_data['model']
-        X_train_expanded = model_data['X_train_expanded']
-        y_train_mean = model_data['y_train_mean']
-        y_train_std = model_data['y_train_std']
-        best_X_train = model_data['best_X_train']
-        best_y_train = model_data['best_y_train']
+        model_data = pickle.load(file) #Menggunakan modul pickle, data yang ada di dalam file 'model.pkl' dibaca dan dimuat ke dalam variabel model_data.
+        model = model_data['model'] #Variabel model diisi dengan nilai dari kunci 'model' yang ada di dalam model_data
+        X_train_expanded = model_data['X_train_expanded'] #Variabel X_train_expanded diisi dengan nilai dari kunci 'X_train_expanded' yang ada di dalam model_data.mendapatkan data latihan yang telah diperluas (expanded)
+        y_train_mean = model_data['y_train_mean'] #untuk mendapatkan nilai rata-rata dari data latihan
+        y_train_std = model_data['y_train_std'] #untuk mendapatkan standar deviasi dari data latih
+        best_X_train = model_data['best_X_train'] #untuk mendapatkan data latih terbaik
+        best_y_train = model_data['best_y_train'] #untuk mendapatkan target data latih terbaik
 
     # Function to normalize input data
-    def normalize_input_data(data):
-        normalized_data = (data - np.mean(best_X_train, axis=0)) / np.std(best_X_train, axis=0)
-        return normalized_data
+    def normalize_input_data(data): #memiliki satu parameter data.akan menerima data input yang ingin dinormalisasi
+        normalized_data = (data - np.mean(best_X_train, axis=0)) / np.std(best_X_train, axis=0) 
+        #Normalisasi dengan mengurangi rata-rata dari best_X_train dari setiap nilai dalam data, dan kemudian membaginya dengan standar deviasi dari best_X_train
+        return normalized_data #mengembalikan normalized_data sebagai hasil normalisasi.
     
     # Function to expand input features
     def expand_input_features(data):
