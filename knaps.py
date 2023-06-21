@@ -104,7 +104,7 @@ elif choose=='Predict':
         return denormalized_data
     
     # Streamlit app code
-    if st.button('Prediksi'):
+    def main():
         st.title('Prediksi Harga Rumah')
     
         # Input form
