@@ -4,7 +4,6 @@ import numpy as np #import modul numpy
 import pickle #import modul pickle yang digunakan untuk serialisasi dan deserialisasi objek Python
 from PIL import Image  #import kelas Image dari modul PIL (Python Imaging Library) yang digunakan untuk memanipulasi gambar
 from streamlit_option_menu import option_menu  #pustaka yang memberikan fungsi tambahan untuk membuat menu pilihan dengan Streamlit
-from sklearn.linear_model import LinearRegression
 from linear_regression_model import LinearRegression
 from sklearn.preprocessing import PolynomialFeatures
 from sklearn.model_selection import train_test_split
