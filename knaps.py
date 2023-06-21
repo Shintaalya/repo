@@ -90,19 +90,15 @@ def load_model():
     return model, X_train_expanded, y_train_mean, y_train_std, best_X_train, best_y_train
 
 # Function to normalize input data
-def normalize_input_data(data):
+def normalize_input_data(data, X_train_expanded):
     normalized_data = (data - np.mean(X_train_expanded, axis=0)) / np.std(X_train_expanded, axis=0)
     return normalized_data
+
 # Function to expand input features
-def expand_input_features(data):
-    normalized_data = normalize_input_data(data)
+def expand_input_features(data, X_train_expanded):
+    normalized_data = normalize_input_data(data, X_train_expanded)
     expanded_data = model.expand_features(normalized_data, degree=2)
     return expanded_data
-
-# Function to denormalize predicted data
-def denormalize_data(data):
-    denormalized_data = (data * y_train_std) + y_train_mean
-    return denormalized_data
 
 # Main function to run the Streamlit app
 def main():
@@ -126,7 +122,7 @@ def main():
 
             # Normalize and expand input features
             input_features = np.array([[input_feature_1, input_feature_2]])
-            expanded_input = expand_input_features(input_features)
+            expanded_input = expand_input_features(input_features, X_train_expanded)
 
             # Perform prediction
             normalized_prediction = model.predict(expanded_input)
