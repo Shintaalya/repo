@@ -117,21 +117,21 @@ def main():
         st.error('Please enter numeric values for the input features.')
         return
     
-    # Convert input values to float
-    input_feature_1 = float(input_data_1)
-    input_feature_2 = float(input_data_2)
+# Convert input values to float
+input_feature_1 = float(input_data_1)
+input_feature_2 = float(input_data_2)
 
-    # Normalize and expand input features
-    input_features = np.array([[input_feature_1, input_feature_2]])
-    expanded_input = expand_input_features(input_features)
+# Normalize and expand input features
+input_features = np.array([[input_feature_1, input_feature_2]])
+expanded_input = expand_input_features(input_features)
 
-    # Perform prediction
-    normalized_prediction = model.predict(expanded_input)
-    prediction = denormalize_data(normalized_prediction)
+# Perform prediction
+normalized_prediction = model.predict(expanded_input)
+prediction = denormalize_data(normalized_prediction)
 
-    # Display the prediction
-    st.subheader('Hasil Prediksi')
-    st.write(prediction[0])
+# Display the prediction
+st.subheader('Hasil Prediksi')
+st.write(prediction[0])
     
 if choose == 'Help':
     st.markdown('<h1 style="text-align: center;"> Panduan : </h1><ol type="1" style="text-align: justify; background-color: #00FFFF; padding: 30px; border-radius: 20px;"><li><i><b>Cara View Dataset</b></i> <ol type="a"><li>Masuk ke sistem</li><li>Pilih menu dataset</li></ol></li><li><i><b>Cara Prediksi Harga</b></i> <ol type="a"><li>Pilih menu predict</li><li>Pilih LT dan LB</li><li>Klik tombol prediksi</li></ol></li></ol>', unsafe_allow_html=True)
