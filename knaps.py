@@ -12,7 +12,7 @@ from sklearn.metrics import mean_absolute_percentage_error #untuk menghitung dan
 with st.sidebar: #Fungsi tersebut menghasilkan objek pilihan menu
     choose = option_menu("Linear Regression (Polynomial)", ["Home", "Dataset", "Prepocessing", "Predict", "Help"],
                              icons=['house', 'table', 'cloud-upload', 'boxes','check2-circle'],
-                             menu_icon="house", default_index=0,
+                             menu_icon="app-indicator", default_index=0,
                              styles={
             "container": {"padding":"5!important", "background-color": "10A19D"}, #Mengatur tampilan kontainer (wadah) dari menu pilihan
             "icon": {"color": "blue", "font-size": "25px"},  #Mengatur tampilan ikon dalam menu pilihan. Properti "color" mengatur warna ikon. Properti "font-size" mengatur ukuran font ikon.
