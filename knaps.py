@@ -78,11 +78,13 @@ elif choose=='Predict':
     input_data_1 = st.text_input('Luas Tanah', '')
     input_data_2 = st.text_input('Luas Bangunan', '')
     
-    # Check if input values are numeric
-    if not input_data_1.isnumeric() or not input_data_2.isnumeric():
-        st.error('Please enter numeric values for the input features.')
-        # return
     if btn:
+
+        # Check if input values are numeric
+        if not input_data_1.isnumeric() or not input_data_2.isnumeric():
+        st.error('Please enter numeric values for the input features.')
+        return
+        
         # Mendownload file model.pkl
         url = 'https://raw.githubusercontent.com/Shintaalya/repo/main/model.pkl'
         filename = 'model.pkl'  # Nama file yang akan disimpan secara sementara
