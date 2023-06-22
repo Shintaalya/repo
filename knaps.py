@@ -78,33 +78,33 @@ elif choose=='Predict':
     input_data_1 = st.text_input('Luas Tanah', '')
     input_data_2 = st.text_input('Luas Bangunan', '')
     
-    if btn:
+    # if btn:
 
-        # Check if input values are numeric
-        if not input_data_1.isnumeric() or not input_data_2.isnumeric():
-        st.error('Please enter numeric values for the input features.')
-        return
+    # Check if input values are numeric
+    if not input_data_1.isnumeric() or not input_data_2.isnumeric():
+    st.error('Please enter numeric values for the input features.')
+    return
+    
+    # Mendownload file model.pkl
+    url = 'https://raw.githubusercontent.com/Shintaalya/repo/main/model.pkl'
+    filename = 'model.pkl'  # Nama file yang akan disimpan secara sementara
+    urllib.request.urlretrieve(url, filename)
         
-        # Mendownload file model.pkl
-        url = 'https://raw.githubusercontent.com/Shintaalya/repo/main/model.pkl'
-        filename = 'model.pkl'  # Nama file yang akan disimpan secara sementara
-        urllib.request.urlretrieve(url, filename)
-        
-        # Convert input values to float
-        input_feature_1 = float(input_data_1)
-        input_feature_2 = float(input_data_2)
+    # Convert input values to float
+    input_feature_1 = float(input_data_1)
+    input_feature_2 = float(input_data_2)
     
-        # Normalize and expand input features
-        input_features = np.array([[input_feature_1, input_feature_2]])
-        expanded_input = expand_input_features(input_features)
+    # Normalize and expand input features
+    input_features = np.array([[input_feature_1, input_feature_2]])
+    expanded_input = expand_input_features(input_features)
     
-        # Perform prediction
-        normalized_prediction = model.predict(expanded_input)
-        prediction = denormalize_data(normalized_prediction)
+    # Perform prediction
+    normalized_prediction = model.predict(expanded_input)
+    prediction = denormalize_data(normalized_prediction)
     
-        # Display the prediction
-        st.subheader('Hasil Prediksi')
-        st.write(prediction[0])
+    # Display the prediction
+    st.subheader('Hasil Prediksi')
+    st.write(prediction[0])
     
     # Load the model
     with open('model.pkl','rb') as file:
