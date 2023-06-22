@@ -1,4 +1,4 @@
-mport streamlit as st #import modul Streamlit yang digunakan untuk membangun antarmuka pengguna
+import streamlit as st #import modul Streamlit yang digunakan untuk membangun antarmuka pengguna
 import pandas as pd #import modul pandas yang digunakan untuk analisis data
 import numpy as np #import modul numpy
 import pickle #import modul pickle yang digunakan untuk serialisasi dan deserialisasi objek Python
