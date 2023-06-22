@@ -81,7 +81,7 @@ elif choose=='Predict':
     # Check if input values are numeric
     if not input_data_1.isnumeric() or not input_data_2.isnumeric():
         st.error('Please enter numeric values for the input features.')
-            return
+        return
     if btn:
         # Mendownload file model.pkl
         url = 'https://raw.githubusercontent.com/Shintaalya/repo/main/model.pkl'
