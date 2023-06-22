@@ -70,41 +70,10 @@ elif choose=='Predict':
     st.image(logo, caption='')
     import urllib.request
 
-    # Streamlit app code
-    # def main():
-    st.title('Prediksi Harga Rumah')
-    
-    # Input form
-    input_data_1 = st.text_input('Luas Tanah', '')
-    input_data_2 = st.text_input('Luas Bangunan', '')
-    
-    # if btn:
-
-    # Check if input values are numeric
-    if not input_data_1.isnumeric() or not input_data_2.isnumeric():
-    st.error('Please enter numeric values for the input features.')
-    return
-    
     # Mendownload file model.pkl
     url = 'https://raw.githubusercontent.com/Shintaalya/repo/main/model.pkl'
     filename = 'model.pkl'  # Nama file yang akan disimpan secara sementara
     urllib.request.urlretrieve(url, filename)
-        
-    # Convert input values to float
-    input_feature_1 = float(input_data_1)
-    input_feature_2 = float(input_data_2)
-    
-    # Normalize and expand input features
-    input_features = np.array([[input_feature_1, input_feature_2]])
-    expanded_input = expand_input_features(input_features)
-    
-    # Perform prediction
-    normalized_prediction = model.predict(expanded_input)
-    prediction = denormalize_data(normalized_prediction)
-    
-    # Display the prediction
-    st.subheader('Hasil Prediksi')
-    st.write(prediction[0])
     
     # Load the model
     with open('model.pkl','rb') as file:
@@ -123,19 +92,48 @@ elif choose=='Predict':
         return normalized_data #mengembalikan normalized_data sebagai hasil normalisasi.
     
     # Function to expand input features
-    def expand_input_features(data):
-        normalized_data = normalize_input_data(data)
-        expanded_data = model.expand_features(normalized_data, degree=2)
-        return expanded_data
+    def expand_input_features(data): #data input yang ingin diperluas fiturnya.
+        normalized_data = normalize_input_data(data) #Fungsi ini melakukan normalisasi terhadap data input dengan mengurangi rata-rata dari best_X_train dan membaginya dengan standar deviasi dari best_X_train
+        expanded_data = model.expand_features(normalized_data, degree=2) #Fungsi ini mengembangkan fitur input dengan menggunakan ekspansi polinomial dengan derajat 2.
+        return expanded_data #Hasil ekspansi fitur disimpan dalam variabel expanded_data kemudian expanded_data dikembalikan sebagai hasil dari fungsi
     
     # Function to denormalize predicted data
-    def denormalize_data(data):
-        denormalized_data = (data * y_train_std) + y_train_mean
-        return denormalized_data
+    def denormalize_data(data): #mengalikan data dengan y_train_std/standar deviasi dari data latih yang digunakan dalam normalisasi
+        denormalized_data = (data * y_train_std) + y_train_mean # hasil perkalian tersebut ditambahkan dengan y_train_mean/nilai rata-rata dari data latih yang digunakan dalam normalisasi.
+        return denormalized_data #mengembalikan data yang telah dinormalisasi ke bentuk semula sebelum normalisasi dilakukan
+    
+    # Streamlit app code
+    def main():
+        st.title('Prediksi Harga Rumah')
+    
+        # Input form #digunakan untuk membuat field input teks di mana pengguna dapat memasukkan nilai
+        input_data_1 = st.text_input('Luas Tanah', '100')
+        input_data_2 = st.text_input('Luas Bangunan', '200')
+    
+        # Check if input values are numeric
+        if not input_data_1.isnumeric() or not input_data_2.isnumeric():
+            st.error('Please enter numeric values for the input features.')
+            return
+        
+        # Convert input values to float
+        input_feature_1 = float(input_data_1)
+        input_feature_2 = float(input_data_2)
+    
+        # Normalize and expand input features
+        input_features = np.array([[input_feature_1, input_feature_2]])
+        expanded_input = expand_input_features(input_features)
+    
+        # Perform prediction
+        normalized_prediction = model.predict(expanded_input)
+        prediction = denormalize_data(normalized_prediction)
+    
+        # Display the prediction
+        st.subheader('Hasil Prediksi')
+        st.write(prediction[0])
     
 elif choose == 'Help':
     st.markdown('<h1 style="text-align: center;"> Panduan : </h1><ol type="1" style="text-align: justify; background-color: #00FFFF; padding: 30px; border-radius: 20px;"><li><i><b>Cara View Dataset</b></i> <ol type="a"><li>Masuk ke sistem</li><li>Pilih menu dataset</li></ol></li><li><i><b>Cara Prediksi Harga</b></i> <ol type="a"><li>Pilih menu predict</li><li>Pilih LT dan LB</li><li>Klik tombol prediksi</li></ol></li></ol>', unsafe_allow_html=True)
 
 # Menjalankan aplikasi Streamlit
-if _name_ == "_main_":
+if __name__ == "__main__":
     main()
