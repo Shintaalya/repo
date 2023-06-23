@@ -83,6 +83,8 @@ elif choose=='Predict':
         y_train_std = model_data['y_train_std'] #untuk mendapatkan standar deviasi dari data latih
         best_X_train = model_data['best_X_train'] #untuk mendapatkan data latih terbaik
         best_y_train = model_data['best_y_train'] #untuk mendapatkan target data latih terbaik
+        coef = model_data['coef']
+        intercept = model_data['intercept']
 
     # Function to normalize input data
     def normalize_input_data(data): #memiliki satu parameter data.akan menerima data input yang ingin dinormalisasi
