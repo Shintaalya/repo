@@ -101,26 +101,26 @@ elif choose=='Predict':
         denormalized_data = (data * y_train_std) + y_train_mean # hasil perkalian tersebut ditambahkan dengan y_train_mean/nilai rata-rata dari data latih yang digunakan dalam normalisasi.
         return denormalized_data #mengembalikan data yang telah dinormalisasi ke bentuk semula sebelum normalisasi dilakukan
     def polynomial_formula(coefficients):
-    n = len(coefficients)
-    polynomial = ""
-
-    for i in range(n):
-        power = n - i - 1
-        coefficient = coefficients[i]
-
-        if power > 1:
-            term = f"{coefficient}X^{power}"
-        elif power == 1:
-            term = f"{coefficient}X"
-        else:
-            term = f"{coefficient}"
-
-        if coefficient >= 0 and i > 0:
-            polynomial += " + " + term
-        else:
-            polynomial += term
-
-    return polynomial
+        n = len(coefficients)
+        polynomial = ""
+    
+        for i in range(n):
+            power = n - i - 1
+            coefficient = coefficients[i]
+    
+            if power > 1:
+                term = f"{coefficient}X^{power}"
+            elif power == 1:
+                term = f"{coefficient}X"
+            else:
+                term = f"{coefficient}"
+    
+            if coefficient >= 0 and i > 0:
+                polynomial += " + " + term
+            else:
+                polynomial += term
+    
+        return polynomial
 
     def main():
         st.title("Rumus Polynomial")
