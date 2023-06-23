@@ -100,7 +100,7 @@ elif choose=='Predict':
     def denormalize_data(data): #mengalikan data dengan y_train_std/standar deviasi dari data latih yang digunakan dalam normalisasi
         denormalized_data = (data * y_train_std) + y_train_mean # hasil perkalian tersebut ditambahkan dengan y_train_mean/nilai rata-rata dari data latih yang digunakan dalam normalisasi.
         return denormalized_data #mengembalikan data yang telah dinormalisasi ke bentuk semula sebelum normalisasi dilakukan
-    def polynomial_formula(coefficients):
+    def linear_regression_polynomial_formula(coefficients):
         n = len(coefficients)
         polynomial = ""
     
@@ -123,15 +123,15 @@ elif choose=='Predict':
         return polynomial
 
     def main():
-        st.title("Rumus Polynomial")
+        st.title("Rumus Linear Regression dengan Polynomial")
     
-        # Definisikan koefisien-koefisien polynomial
+        # Definisikan koefisien-koefisien polynomial dari model Linear Regression
         coefficients = [2, -1, 3]  # Ganti dengan koefisien-koefisien yang diinginkan
     
-        result = polynomial_formula(coefficients)
-        st.write("Rumus Polynomial:", result)
+        result = linear_regression_polynomial_formula(coefficients)
+        st.write("Rumus Linear Regression dengan Polynomial:", result)
     
-        # Tambahkan fitur untuk menampilkan rumus/model polynomial di sini
+        # Tambahkan fitur untuk menampilkan rumus/model Linear Regression dengan Polynomial di sini
     
     if __name__ == "__main__":
         main()
