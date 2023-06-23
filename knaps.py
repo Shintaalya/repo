@@ -135,7 +135,6 @@ elif choose=='Predict':
         result = linear_regression_polynomial_formula(coefficients)
     
         # Menampilkan rumus Linear Regression dengan Polynomial
-        st.write("Rumus Linear Regression dengan Polynomial:")
         st.write(f"y = {result}")
     
         # Tambahkan fitur untuk menampilkan rumus/model Linear Regression dengan Polynomial di sini
