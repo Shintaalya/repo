@@ -127,14 +127,7 @@ elif choose=='Predict':
 
     def main():
         st.title("Rumus Linear Regression dengan Polynomial")
-        st.write("y = w0 + w1X + w2X^2 + ... + wn*X^n
-
-        Di mana:
-        
-        y adalah variabel target (output)
-        X adalah variabel input (fitur)
-        w0, w1, w2, ..., wn adalah koefisien yang akan ditentukan oleh model Linear Regression dengan Polynomial
-        n adalah derajat Polynomial yang digunakan")
+        st.write("y = w0 + w1X + w2X^2 + ... + wn*X^n")
     
         # Definisikan koefisien-koefisien polynomial dari model Linear Regression
         coefficients = [2, -1, 3]  # Ganti dengan koefisien-koefisien yang diinginkan
