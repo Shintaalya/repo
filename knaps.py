@@ -109,16 +109,16 @@ elif choose=='Predict':
     
         for i in range(n):
             power = n - i - 1
-            coef = coefficients[i]
+            coefficient = coefficients[i]
     
             if power > 1:
-                term = f"{coef}X^{power}"
+                term = f"{coefficient} * X^{power}"
             elif power == 1:
-                term = f"{coef}X"
+                term = f"{coefficient} * X"
             else:
-                term = f"{coef}"
+                term = f"{coefficient}"
     
-            if coef >= 0 and i > 0:
+            if coefficient >= 0 and i > 0:
                 polynomial += " + " + term
             else:
                 polynomial += term
@@ -135,7 +135,7 @@ elif choose=='Predict':
     
         # Menampilkan rumus Linear Regression dengan Polynomial
         st.write("Rumus Linear Regression dengan Polynomial:")
-        st.latex(f"y = {result}")
+        st.write(f"y = {result}")
     
         # Tambahkan fitur untuk menampilkan rumus/model Linear Regression dengan Polynomial di sini
     
