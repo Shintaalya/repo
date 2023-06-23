@@ -122,7 +122,7 @@ elif choose=='Predict':
             else:
                 polynomial += term
 
-    return polynomial
+        return polynomial
 
     def main():
         st.title("Rumus Linear Regression dengan Polynomial")
