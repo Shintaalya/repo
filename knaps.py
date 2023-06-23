@@ -63,35 +63,6 @@ elif choose=='Prepocessing':
     st.write("Berdasarkan garis lurus atau linearnya")
     logo = Image.open('dataset3.png')
     st.image(logo, caption='')
-def polynomial_formula(coefficients):
-    n = len(coefficients)
-    polynomial = ""
-
-    for i in range(n):
-        power = n - i - 1
-        coefficient = coefficients[i]
-
-        if power > 1:
-            term = f"{coefficient}X^{power}"
-        elif power == 1:
-            term = f"{coefficient}X"
-        else:
-            term = f"{coefficient}"
-
-        if coefficient >= 0 and i > 0:
-            polynomial += " + " + term
-        else:
-            polynomial += term
-
-    return polynomial
-
-    st.title("Rumus Polynomial")
-    
-    # Definisikan koefisien-koefisien polynomial
-    coefficients = [2, -1, 3]  # Ganti dengan koefisien-koefisien yang diinginkan
-    
-    result = polynomial_formula(coefficients)
-    st.write("Rumus Polynomial:", result)
 elif choose=='Predict':
     st.markdown('<h1 style = "text-align: center;"> Prediksi Harga Rumah</h1>', unsafe_allow_html = True)
     logo = Image.open('eror.png')
