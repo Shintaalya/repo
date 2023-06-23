@@ -100,6 +100,8 @@ elif choose=='Predict':
     def denormalize_data(data): #mengalikan data dengan y_train_std/standar deviasi dari data latih yang digunakan dalam normalisasi
         denormalized_data = (data * y_train_std) + y_train_mean # hasil perkalian tersebut ditambahkan dengan y_train_mean/nilai rata-rata dari data latih yang digunakan dalam normalisasi.
         return denormalized_data #mengembalikan data yang telah dinormalisasi ke bentuk semula sebelum normalisasi dilakukan
+    import streamlit as st
+
     def linear_regression_polynomial_formula(coefficients):
         n = len(coefficients)
         polynomial = ""
@@ -119,8 +121,8 @@ elif choose=='Predict':
                 polynomial += " + " + term
             else:
                 polynomial += term
-    
-        return polynomial
+
+    return polynomial
 
     def main():
         st.title("Rumus Linear Regression dengan Polynomial")
@@ -129,12 +131,16 @@ elif choose=='Predict':
         coefficients = [2, -1, 3]  # Ganti dengan koefisien-koefisien yang diinginkan
     
         result = linear_regression_polynomial_formula(coefficients)
-        st.write("Rumus Linear Regression dengan Polynomial:", result)
+    
+        # Menampilkan rumus Linear Regression dengan Polynomial
+        st.write("Rumus Linear Regression dengan Polynomial:")
+        st.latex(f"y = {result}")
     
         # Tambahkan fitur untuk menampilkan rumus/model Linear Regression dengan Polynomial di sini
     
     if __name__ == "__main__":
         main()
+
     # Streamlit app code
     def main():
         st.title('Prediksi Harga Rumah')
